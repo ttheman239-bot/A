@@ -1,0 +1,90 @@
+name: Release APK
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Install Android build tools (Ubuntu apt)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            android-sdk-platform-23 \
+            libandroid-23-java \
+            aapt \
+            apksigner \
+            zipalign \
+            dalvik-exchange \
+            ecj
+          # Confirm tool locations
+          which aapt2 zipalign apksigner ecj
+          ls /usr/lib/android-sdk/build-tools/debian/dx
+          ls /usr/lib/android-sdk/platforms/android-23/android.jar
+
+      - name: Build APK
+        run: |
+          chmod +x build.sh
+          ./build.sh
+
+      - name: Verify APK
+        run: |
+          apksigner verify --verbose dist/AsiaUSTrader-debug.apk
+          aapt dump badging dist/AsiaUSTrader-debug.apk | head -10
+          ls -lh dist/AsiaUSTrader-debug.apk
+
+      - name: Rename APK with tag/version
+        id: rename
+        run: |
+          REF_NAME="${GITHUB_REF_NAME:-manual}"
+          OUT="dist/AsiaUSTrader-${REF_NAME}.apk"
+          cp dist/AsiaUSTrader-debug.apk "${OUT}"
+          echo "apk_path=${OUT}" >> "$GITHUB_OUTPUT"
+          echo "ref_name=${REF_NAME}" >> "$GITHUB_OUTPUT"
+
+      - name: Upload APK artifact (for workflow_dispatch runs)
+        if: github.event_name == 'workflow_dispatch'
+        uses: actions/upload-artifact@v4
+        with:
+          name: AsiaUSTrader-apk
+          path: ${{ steps.rename.outputs.apk_path }}
+
+      - name: Publish GitHub Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          name: Asia → US Trader ${{ steps.rename.outputs.ref_name }}
+          tag_name: ${{ steps.rename.outputs.ref_name }}
+          files: ${{ steps.rename.outputs.apk_path }}
+          generate_release_notes: true
+          body: |
+            **Asia → US Trader** debug build.
+
+            - `package`: `com.asiaproxy.trader`
+            - `minSdkVersion`: 26 (Android 8.0+)
+            - `targetSdkVersion`: 23
+            - signed with v2 + v3 schemes (debug keystore)
+
+            Install on a device with:
+
+            ```
+            adb install -r AsiaUSTrader-${{ steps.rename.outputs.ref_name }}.apk
+            ```
+
+            Built with `build.sh` (no Gradle / AGP — see README for the toolchain).
