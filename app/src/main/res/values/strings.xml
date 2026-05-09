@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Asia→US Trader</string>
+
+    <string name="tab_home">Home</string>
+    <string name="tab_pairs">Pairs</string>
+    <string name="tab_calendar">Calendar</string>
+    <string name="tab_rules">Rules</string>
+    <string name="tab_journal">Journal</string>
+
+    <string name="title_pair_detail">Pair Analysis</string>
+    <string name="title_web">Open Link</string>
+
+    <string name="now_label">Bangkok Time</string>
+    <string name="market_status">Market Status</string>
+    <string name="watchlist_now">What to Watch Now</string>
+    <string name="us_focus">US Tickers in Focus</string>
+    <string name="catalysts_today">Today\'s Catalysts</string>
+    <string name="quick_links">Quick Links</string>
+    <string name="recommendation">Verdict</string>
+    <string name="last_updated">Updated</string>
+
+    <string name="btn_refresh">Refresh</string>
+    <string name="btn_open">Open</string>
+    <string name="btn_pairs">Pairs</string>
+    <string name="btn_calendar">Calendar</string>
+    <string name="btn_rules">Rules</string>
+    <string name="btn_journal">Journal</string>
+    <string name="btn_save">Save</string>
+    <string name="btn_clear">Clear</string>
+
+    <string name="journal_hint_proxy">Proxy / Asia signal (e.g. TSMC Beat 8.2%)</string>
+    <string name="journal_hint_us">US reaction (e.g. NVDA +2.1% premkt)</string>
+    <string name="journal_hint_verdict">Your verdict (Buy/Hold/Sell)</string>
+    <string name="journal_empty">No entries yet. Add one above.</string>
+    <string name="journal_saved">Entry saved.</string>
+
+    <string name="rules_buy_title">When to Trade (High Probability)</string>
+    <string name="rules_avoid_title">When to Avoid</string>
+    <string name="rules_risk_title">Risk Management</string>
+    <string name="rules_post_title">Post-Event Playbook</string>
+
+    <string name="verdict_buy">Strong Buy</string>
+    <string name="verdict_buy_dip">Buy on Dip</string>
+    <string name="verdict_neutral">Neutral</string>
+    <string name="verdict_avoid">Avoid</string>
+    <string name="verdict_sell">Sell into Strength</string>
+</resources>

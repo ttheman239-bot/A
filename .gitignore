@@ -1,0 +1,15 @@
+# Build outputs
+build/
+*.class
+*.dex
+
+# Tooling junk
+*.swp
+*.swo
+.DS_Store
+
+# Don't commit the keystore (regenerated on first build)
+app/keystore/debug.keystore
+
+# javac error report dumps
+/javac.*.args

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="bg">#FFFAFAFC</color>
+    <color name="card">#FFFFFFFF</color>
+    <color name="card_alt">#FFF1F4F8</color>
+    <color name="ink">#FF0F1729</color>
+    <color name="ink_dim">#FF53607A</color>
+    <color name="accent">#FF1565C0</color>
+    <color name="accent_dark">#FF0D47A1</color>
+    <color name="bull">#FF1B8A3A</color>
+    <color name="bull_bg">#FFE6F4EA</color>
+    <color name="bear">#FFC62828</color>
+    <color name="bear_bg">#FFFDECEA</color>
+    <color name="warn">#FFE07B00</color>
+    <color name="warn_bg">#FFFFF4E0</color>
+    <color name="muted_bg">#FFE9EDF3</color>
+    <color name="divider">#FFE2E6EE</color>
+</resources>
