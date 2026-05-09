@@ -9,50 +9,23 @@ on:
   workflow_dispatch:
     inputs:
       tag:
-        description: 'Release tag (e.g. v1.1)'
+        description: 'Release tag (e.g. v1.1.1)'
         required: true
-        default: 'v1.1'
+        default: 'v1.1.1'
 
 permissions:
   contents: write
 
 jobs:
-  build:
-    runs-on: ubuntu-24.04
+  publish:
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up JDK 21
-        uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: '21'
-
-      - name: Install Android build tools (Ubuntu apt)
+      - name: Verify pre-built APK exists
         run: |
-          sudo apt-get update
-          sudo apt-get install -y --no-install-recommends \
-            android-sdk-platform-23 \
-            libandroid-23-java \
-            aapt \
-            apksigner \
-            zipalign \
-            dalvik-exchange \
-            ecj
-          which aapt2 zipalign apksigner ecj
-          ls /usr/lib/android-sdk/build-tools/debian/dx
-          ls /usr/lib/android-sdk/platforms/android-23/android.jar
-
-      - name: Build APK
-        run: |
-          chmod +x build.sh
-          ./build.sh
-
-      - name: Verify APK
-        run: |
-          apksigner verify --verbose dist/AsiaUSTrader-debug.apk
-          aapt dump badging dist/AsiaUSTrader-debug.apk | head -10
+          test -f dist/AsiaUSTrader-debug.apk
           ls -lh dist/AsiaUSTrader-debug.apk
 
       - name: Resolve release tag
@@ -65,7 +38,7 @@ jobs:
           elif [[ -n "${{ inputs.tag }}" ]]; then
             TAG="${{ inputs.tag }}"
           else
-            TAG="manual-$(date +%Y%m%d-%H%M%S)"
+            TAG="manual-$(date -u +%Y%m%d-%H%M%S)"
           fi
           OUT="dist/AsiaUSTrader-${TAG}.apk"
           cp dist/AsiaUSTrader-debug.apk "${OUT}"
@@ -87,13 +60,13 @@ jobs:
           files: ${{ steps.meta.outputs.apk_path }}
           generate_release_notes: true
           body: |
-            **Asia → US Trader** debug build.
+            **Asia → US Trader** debug build (pre-built APK from `dist/AsiaUSTrader-debug.apk`).
 
             - `package`: `com.asiaproxy.trader`
             - `versionName`: 1.1
             - `minSdkVersion`: 26 (Android 8.0+)
             - `targetSdkVersion`: 23
-            - signed with v2 + v3 schemes (debug keystore — for sideloading only)
+            - signed with v2 + v3 schemes (debug keystore — sideload only)
 
             Install on a device:
 
@@ -101,4 +74,4 @@ jobs:
             adb install -r AsiaUSTrader-${{ steps.meta.outputs.tag }}.apk
             ```
 
-            Built end-to-end with `build.sh` (no Gradle / AGP — see README for the toolchain).
+            Built locally with `build.sh` (no Gradle / AGP — see README for the toolchain). To rebuild from source on a workstation, run `./build.sh` after installing the apt tools listed in the README.
