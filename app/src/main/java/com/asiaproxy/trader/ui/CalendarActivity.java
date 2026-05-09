@@ -3,6 +3,7 @@ package com.asiaproxy.trader.ui;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -21,9 +22,12 @@ public class CalendarActivity extends Activity {
     @Override protected void onCreate(Bundle b) {
         super.onCreate(b);
         setContentView(R.layout.activity_list);
-        if (getActionBar() != null) getActionBar().setDisplayHomeAsUpEnabled(true);
+
+        TextView title = (TextView) findViewById(R.id.txtScreenTitle);
+        if (title != null) title.setText(R.string.tab_calendar);
 
         LinearLayout container = (LinearLayout) findViewById(R.id.listContainer);
+        if (container == null) return;
 
         int dom = Calendar.getInstance(TimeZone.getTimeZone("Asia/Bangkok")).get(Calendar.DAY_OF_MONTH);
 
@@ -38,7 +42,7 @@ public class CalendarActivity extends Activity {
         }
     }
 
-    private LinearLayout makeCard(Catalyst c, boolean today) {
+    private LinearLayout makeCard(final Catalyst c, boolean today) {
         LinearLayout col = Views.column(this);
         col.setBackgroundResource(R.drawable.bg_card);
         col.setPadding(Views.dp(this, 14), Views.dp(this, 14), Views.dp(this, 14), Views.dp(this, 14));
@@ -73,7 +77,9 @@ public class CalendarActivity extends Activity {
         open.setAllCaps(false);
         open.setPadding(0, Views.dp(this, 6), 0, 0);
         open.setGravity(Gravity.START);
-        open.setOnClickListener(v -> Views.openUrl(this, c.url));
+        open.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) { Views.openUrl(CalendarActivity.this, c.url); }
+        });
         col.addView(open);
 
         return col;

@@ -3,7 +3,6 @@ package com.asiaproxy.trader.ui;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -19,35 +18,41 @@ import java.util.List;
 public class JournalActivity extends Activity {
 
     private JournalStore store;
+    private EditText proxyIn, usIn, verIn;
 
     @Override protected void onCreate(Bundle b) {
         super.onCreate(b);
         setContentView(R.layout.activity_journal);
-        if (getActionBar() != null) getActionBar().setDisplayHomeAsUpEnabled(true);
 
         store = new JournalStore(this);
 
-        EditText proxyIn = (EditText) findViewById(R.id.inputProxy);
-        EditText usIn = (EditText) findViewById(R.id.inputUs);
-        EditText verIn = (EditText) findViewById(R.id.inputVerdict);
+        proxyIn = (EditText) findViewById(R.id.inputProxy);
+        usIn = (EditText) findViewById(R.id.inputUs);
+        verIn = (EditText) findViewById(R.id.inputVerdict);
 
-        findViewById(R.id.btnSave).setOnClickListener(v -> {
-            String p = proxyIn.getText().toString().trim();
-            String u = usIn.getText().toString().trim();
-            String vd = verIn.getText().toString().trim();
-            if (p.isEmpty() && u.isEmpty() && vd.isEmpty()) return;
-            store.add(p, u, vd);
-            proxyIn.setText("");
-            usIn.setText("");
-            verIn.setText("");
-            Toast.makeText(this, R.string.journal_saved, Toast.LENGTH_SHORT).show();
-            renderEntries();
+        View btnSave = findViewById(R.id.btnSave);
+        if (btnSave != null) btnSave.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                String p = proxyIn == null ? "" : proxyIn.getText().toString().trim();
+                String u = usIn == null ? "" : usIn.getText().toString().trim();
+                String vd = verIn == null ? "" : verIn.getText().toString().trim();
+                if (p.isEmpty() && u.isEmpty() && vd.isEmpty()) return;
+                store.add(p, u, vd);
+                if (proxyIn != null) proxyIn.setText("");
+                if (usIn != null) usIn.setText("");
+                if (verIn != null) verIn.setText("");
+                Toast.makeText(JournalActivity.this, R.string.journal_saved, Toast.LENGTH_SHORT).show();
+                renderEntries();
+            }
         });
 
-        findViewById(R.id.btnClear).setOnClickListener(v -> {
-            proxyIn.setText("");
-            usIn.setText("");
-            verIn.setText("");
+        View btnClear = findViewById(R.id.btnClear);
+        if (btnClear != null) btnClear.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                if (proxyIn != null) proxyIn.setText("");
+                if (usIn != null) usIn.setText("");
+                if (verIn != null) verIn.setText("");
+            }
         });
 
         renderEntries();
@@ -55,12 +60,12 @@ public class JournalActivity extends Activity {
 
     private void renderEntries() {
         LinearLayout list = (LinearLayout) findViewById(R.id.listEntries);
+        if (list == null) return;
         list.removeAllViews();
         List<JournalEntry> entries = store.all();
         if (entries.isEmpty()) {
-            TextView tv = Views.make(this, getString(R.string.journal_empty),
-                    14, Views.color(this, R.color.ink_dim), false);
-            list.addView(tv);
+            list.addView(Views.make(this, getString(R.string.journal_empty),
+                    14, Views.color(this, R.color.ink_dim), false));
             return;
         }
         for (JournalEntry e : entries) {
@@ -74,8 +79,7 @@ public class JournalActivity extends Activity {
         col.setPadding(Views.dp(this, 14), Views.dp(this, 14), Views.dp(this, 14), Views.dp(this, 14));
         Views.margins(col, 0, 0, 0, Views.dp(this, 8));
 
-        TextView ts = Views.make(this, e.dateLabel, 11, Views.color(this, R.color.ink_dim), true);
-        col.addView(ts);
+        col.addView(Views.make(this, e.dateLabel, 11, Views.color(this, R.color.ink_dim), true));
 
         if (!e.proxy.isEmpty()) {
             TextView t = Views.make(this, "Asia signal: " + e.proxy, 14, Views.color(this, R.color.ink), false);

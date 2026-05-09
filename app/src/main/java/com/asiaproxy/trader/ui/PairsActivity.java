@@ -14,9 +14,7 @@ import com.asiaproxy.trader.engine.Catalog;
 import com.asiaproxy.trader.model.Pair;
 import com.asiaproxy.trader.util.Views;
 
-import java.util.HashSet;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 public class PairsActivity extends Activity {
@@ -24,12 +22,14 @@ public class PairsActivity extends Activity {
     @Override protected void onCreate(Bundle b) {
         super.onCreate(b);
         setContentView(R.layout.activity_list);
-        if (getActionBar() != null) getActionBar().setDisplayHomeAsUpEnabled(true);
+
+        TextView title = (TextView) findViewById(R.id.txtScreenTitle);
+        if (title != null) title.setText(R.string.tab_pairs);
 
         LinearLayout container = (LinearLayout) findViewById(R.id.listContainer);
+        if (container == null) return;
 
-        // Group by category preserving order
-        Map<String, LinearLayout> groups = new LinkedHashMap<>();
+        Map<String, LinearLayout> groups = new LinkedHashMap<String, LinearLayout>();
         for (Pair p : Catalog.pairs()) {
             LinearLayout g = groups.get(p.category);
             if (g == null) {
@@ -47,18 +47,19 @@ public class PairsActivity extends Activity {
         col.setPadding(Views.dp(this, 14), Views.dp(this, 14), Views.dp(this, 14), Views.dp(this, 14));
         Views.margins(col, 0, 0, 0, Views.dp(this, 12));
 
-        TextView head = Views.make(this, category, 14, Views.color(this, R.color.ink_dim), true);
-        col.addView(head);
+        col.addView(Views.make(this, category, 14, Views.color(this, R.color.ink_dim), true));
         return col;
     }
 
-    private View makeRow(Pair p) {
+    private View makeRow(final Pair p) {
         LinearLayout row = Views.column(this);
         row.setPadding(0, Views.dp(this, 8), 0, Views.dp(this, 8));
-        row.setOnClickListener(v -> {
-            Intent i = new Intent(this, PairDetailActivity.class);
-            i.putExtra(PairDetailActivity.EXTRA_PAIR_ID, p.id);
-            startActivity(i);
+        row.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                Intent i = new Intent(PairsActivity.this, PairDetailActivity.class);
+                i.putExtra(PairDetailActivity.EXTRA_PAIR_ID, p.id);
+                startActivity(i);
+            }
         });
 
         LinearLayout top = Views.row(this);
@@ -66,8 +67,7 @@ public class PairsActivity extends Activity {
         title.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
         top.addView(title);
 
-        TextView star = Views.make(this, p.stars(), 12, Views.color(this, R.color.accent), true);
-        top.addView(star);
+        top.addView(Views.make(this, p.stars(), 12, Views.color(this, R.color.accent), true));
         row.addView(top);
 
         TextView sub = Views.make(this, p.usName + " ↔ " + p.asiaName,

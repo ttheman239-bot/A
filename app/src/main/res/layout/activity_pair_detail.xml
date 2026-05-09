@@ -1,129 +1,154 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg"
-    android:fillViewport="true">
+    android:background="@color/bg">
 
     <LinearLayout
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="16dp">
+        android:layout_height="48dp"
+        android:background="@color/accent"
+        android:gravity="center_vertical"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp">
+
+        <TextView
+            android:id="@+id/txtScreenTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FFFFFFFF"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:text="@string/title_pair_detail" />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_card"
             android:padding="16dp">
 
-            <TextView
-                android:id="@+id/txtPairTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="22sp"
-                android:textStyle="bold"
-                android:textColor="@color/ink" />
-
-            <TextView
-                android:id="@+id/txtPairCategory"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:textColor="@color/ink_dim"
-                android:layout_marginTop="2dp" />
-
-            <TextView
-                android:id="@+id/txtPairTier"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:paddingTop="4dp"
-                android:paddingBottom="4dp"
-                android:textSize="11sp"
-                android:textStyle="bold"
-                android:background="@drawable/bg_pill_muted"
-                android:layout_marginTop="8dp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_card"
-            android:padding="16dp"
-            android:layout_marginTop="12dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Catalyst"
-                android:textSize="13sp"
-                android:textStyle="bold"
-                android:textColor="@color/ink_dim" />
-
-            <TextView
-                android:id="@+id/txtCatalyst"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="15sp"
-                android:textColor="@color/ink"
-                android:layout_marginTop="6dp"
-                android:lineSpacingExtra="3dp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_card"
-            android:padding="16dp"
-            android:layout_marginTop="12dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Pre-Trade Checklist"
-                android:textSize="13sp"
-                android:textStyle="bold"
-                android:textColor="@color/ink_dim" />
-
             <LinearLayout
-                android:id="@+id/listChecklist"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="6dp" />
-        </LinearLayout>
+                android:background="@drawable/bg_card"
+                android:padding="16dp">
 
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_card"
-            android:padding="16dp"
-            android:layout_marginTop="12dp">
+                <TextView
+                    android:id="@+id/txtPairTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/ink" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Quick Links"
-                android:textSize="13sp"
-                android:textStyle="bold"
-                android:textColor="@color/ink_dim" />
+                <TextView
+                    android:id="@+id/txtPairCategory"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:textColor="@color/ink_dim"
+                    android:layout_marginTop="2dp" />
+
+                <TextView
+                    android:id="@+id/txtPairTier"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp"
+                    android:textSize="11sp"
+                    android:textStyle="bold"
+                    android:background="@drawable/bg_pill_muted"
+                    android:layout_marginTop="8dp" />
+            </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/listLinks"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="6dp" />
-        </LinearLayout>
+                android:background="@drawable/bg_card"
+                android:padding="16dp"
+                android:layout_marginTop="12dp">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="12dp" />
-    </LinearLayout>
-</ScrollView>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Catalyst"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/ink_dim" />
+
+                <TextView
+                    android:id="@+id/txtCatalyst"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="15sp"
+                    android:textColor="@color/ink"
+                    android:layout_marginTop="6dp"
+                    android:lineSpacingExtra="3dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_card"
+                android:padding="16dp"
+                android:layout_marginTop="12dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Pre-Trade Checklist"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/ink_dim" />
+
+                <LinearLayout
+                    android:id="@+id/listChecklist"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_card"
+                android:padding="16dp"
+                android:layout_marginTop="12dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Quick Links"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/ink_dim" />
+
+                <LinearLayout
+                    android:id="@+id/listLinks"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="12dp" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

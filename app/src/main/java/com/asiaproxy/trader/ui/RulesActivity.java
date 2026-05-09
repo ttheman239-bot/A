@@ -13,9 +13,12 @@ public class RulesActivity extends Activity {
     @Override protected void onCreate(Bundle b) {
         super.onCreate(b);
         setContentView(R.layout.activity_list);
-        if (getActionBar() != null) getActionBar().setDisplayHomeAsUpEnabled(true);
+
+        TextView title = (TextView) findViewById(R.id.txtScreenTitle);
+        if (title != null) title.setText(R.string.tab_rules);
 
         LinearLayout container = (LinearLayout) findViewById(R.id.listContainer);
+        if (container == null) return;
 
         section(container, getString(R.string.rules_buy_title), new String[]{
                 "Asia proxy moves > 2% on volume + Beat clearly above expectation",
@@ -56,8 +59,7 @@ public class RulesActivity extends Activity {
         col.setPadding(Views.dp(this, 14), Views.dp(this, 14), Views.dp(this, 14), Views.dp(this, 14));
         Views.margins(col, 0, 0, 0, Views.dp(this, 12));
 
-        TextView head = Views.make(this, title, 15, Views.color(this, R.color.ink), true);
-        col.addView(head);
+        col.addView(Views.make(this, title, 15, Views.color(this, R.color.ink), true));
 
         for (String s : items) {
             TextView tv = Views.make(this, "•  " + s, 14, Views.color(this, R.color.ink), false);

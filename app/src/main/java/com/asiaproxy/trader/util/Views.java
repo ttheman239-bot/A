@@ -68,12 +68,8 @@ public final class Views {
         }
     }
 
+    @SuppressWarnings("deprecation")
     public static int color(Context ctx, int resId) {
-        Resources r = ctx.getResources();
-        try {
-            return r.getColor(resId, ctx.getTheme());
-        } catch (Throwable t) {
-            return r.getColor(resId);
-        }
+        return ctx.getResources().getColor(resId);
     }
 }

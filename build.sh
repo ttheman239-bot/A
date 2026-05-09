@@ -53,7 +53,7 @@ mapfile -t flat_files < <(find "$BUILD/compiled-res" -name "*.flat" | sort)
     -I "$ANDROID_JAR" \
     --manifest "$MANIFEST" \
     --java "$BUILD/gen" \
-    --min-sdk-version 26 \
+    --min-sdk-version 21 \
     --target-sdk-version 34 \
     --version-code 1 \
     --version-name 1.1 \
@@ -103,7 +103,7 @@ ecj \
     "${java_files[@]}"
 
 echo "==> Converting classes to DEX (dx)"
-"$DX" --dex --min-sdk-version=26 --output="$BUILD/dex/classes.dex" "$BUILD/classes"
+"$DX" --dex --min-sdk-version=21 --output="$BUILD/dex/classes.dex" "$BUILD/classes"
 
 echo "==> Adding classes.dex to APK"
 ( cd "$BUILD/dex" && zip -j -X "$BUILD/app-unsigned.apk" classes.dex >/dev/null )
@@ -128,10 +128,10 @@ echo "==> Signing (apksigner v1+v2)"
     --ks-key-alias "$KEY_ALIAS" \
     --ks-pass "pass:$KEY_PASS" \
     --key-pass "pass:$KEY_PASS" \
-    --v1-signing-enabled false \
+    --v1-signing-enabled true \
     --v2-signing-enabled true \
     --v3-signing-enabled true \
-    --min-sdk-version 26 \
+    --min-sdk-version 21 \
     --out "$DIST/AsiaUSTrader-debug.apk" \
     "$BUILD/app-aligned.apk"
 
