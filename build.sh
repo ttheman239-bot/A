@@ -54,7 +54,7 @@ mapfile -t flat_files < <(find "$BUILD/compiled-res" -name "*.flat" | sort)
     --manifest "$MANIFEST" \
     --java "$BUILD/gen" \
     --min-sdk-version 26 \
-    --target-sdk-version 23 \
+    --target-sdk-version 34 \
     --version-code 1 \
     --version-name 1.1 \
     --auto-add-overlay \
