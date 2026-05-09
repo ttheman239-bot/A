@@ -53,6 +53,20 @@ public class PairDetailActivity extends Activity {
                     "https://finance.yahoo.com/quote/" + pair.usTicker);
             addLink(links, "Benzinga · " + pair.usTicker,
                     "https://www.benzinga.com/quote/" + pair.usTicker);
+            addLink(links, "SCMP — news on " + pair.asiaName,
+                    "https://www.scmp.com/search/" + encode(pair.asiaName));
+            addLink(links, "Reuters — news on " + pair.usTicker,
+                    "https://www.reuters.com/site-search/?query=" + encode(pair.usTicker));
+            addLink(links, "Caixin — search " + pair.asiaName,
+                    "https://search.caixinglobal.com/search.jsp?keyword=" + encode(pair.asiaName));
+        }
+    }
+
+    private static String encode(String s) {
+        try {
+            return java.net.URLEncoder.encode(s, "UTF-8");
+        } catch (Throwable t) {
+            return s.replace(' ', '+');
         }
     }
 

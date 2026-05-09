@@ -13,17 +13,17 @@ public final class Catalog {
 
     public static List<MarketSession> sessions() {
         return Arrays.asList(
-            new MarketSession("Nikkei + KOSPI", "JP/KR", 7 * 60, 8 * 60, "B",
-                new String[]{"7203.T (Toyota)", "8035.T (Tokyo Electron)", "005930.KS (Samsung)", "000660.KS (SK Hynix)"},
-                new String[]{"NVDA", "AAPL", "TSLA", "MU"}),
+            new MarketSession("KOSPI + Nikkei", "JP/KR", 7 * 60, 13 * 60 + 30, "A",
+                new String[]{"000660.KS (SK Hynix)", "005930.KS (Samsung)", "8035.T (Tokyo Electron)", "7203.T (Toyota)"},
+                new String[]{"NVDA", "MU", "AAPL", "TSLA"}),
 
             new MarketSession("TWSE Taiwan", "TW", 8 * 60, 12 * 60 + 30, "A",
                 new String[]{"2330.TW (TSMC)", "2317.TW (Foxconn)"},
                 new String[]{"NVDA", "AAPL", "AMD"}),
 
             new MarketSession("HKEX + China", "HK/CN", 8 * 60 + 30, 15 * 60, "A",
-                new String[]{"1211.HK (BYD)", "9988.HK (Alibaba)", "1128.HK (Wynn Macau)", "1928.HK (Sands China)", "Yum China 9987.HK"},
-                new String[]{"TSLA", "BABA", "WYNN", "LVS", "YUMC"}),
+                new String[]{"9988.HK (Alibaba)", "1211.HK (BYD)", "1128.HK (Wynn Macau)", "1928.HK (Sands China)", "9987.HK (Yum China)"},
+                new String[]{"BABA", "TSLA", "WYNN", "LVS", "YUMC"}),
 
             new MarketSession("India NSE", "IN", 10 * 60 + 45, 16 * 60, "C",
                 new String[]{"INFY (Infosys)", "HDB (HDFC Bank)"},
@@ -130,13 +130,14 @@ public final class Catalog {
                 }),
 
             new Pair("yumc_yumchina", "China Consumer", "YUMC", "Yum China",
-                "9987.HK", "Yum China HK", 3,
-                "China consumer confidence, HK listing",
+                "9987.HK", "Yum China HK", 4,
+                "Quarterly same-store sales (KFC / Pizza Hut China) + HK listing",
                 "https://www.tradingview.com/symbols/NYSE-YUMC/",
                 "https://www.tradingview.com/symbols/HKEX-9987/",
                 new String[]{
-                    "Dual-listed, HK premium varies",
-                    "Sensitive to China consumer macro"
+                    "Dual-listed — HK premium / discount usually < 2%",
+                    "Same-store sales = consumer-recovery proxy",
+                    "Holiday windows (CNY, Golden Week) move SSS most"
                 }),
 
             new Pair("jd_jd", "China ADR", "JD", "JD.com",
@@ -166,10 +167,10 @@ public final class Catalog {
                 "https://www.dicj.gov.mo/web/en/information/DadosEstat_mensal/index.html"),
             new Catalyst("BYD Monthly EV Sales", "1st – 3rd", "TSLA, NIO, LI, XPEV", 1, 3,
                 "https://www.byd.com/en/news"),
-            new Catalyst("Foxconn Monthly Revenue", "5th – 10th", "AAPL", 5, 10,
-                "https://www.honhai.com/en-us/investor"),
+            new Catalyst("Foxconn Monthly Revenue", "5th – 10th", "AAPL",  5, 10,
+                "https://www.foxconn.com/en-us/investor/monthly-revenue"),
             new Catalyst("TSMC Monthly Revenue", "10th", "NVDA, AAPL, AMD", 10, 10,
-                "https://investor.tsmc.com/english"),
+                "https://www.tsmc.com/english/investor-relations/monthly-revenue"),
             new Catalyst("China CPI / PPI", "9th – 12th", "Broad China", 9, 12,
                 "https://th.investing.com/economic-calendar/chinese-cpi-743"),
             new Catalyst("China NBS / Caixin PMI", "End / 1st", "FXI, KWEB, broad", 28, 31,
@@ -188,9 +189,16 @@ public final class Catalog {
             new QuickLink("Benzinga Pro Movers", "https://pro.benzinga.com/movers"),
             new QuickLink("Yahoo Finance — Pre-market", "https://finance.yahoo.com/screener/predefined/aggressive_small_caps"),
             new QuickLink("DICJ Macau GGR", "https://www.dicj.gov.mo/web/en/information/DadosEstat_mensal/index.html"),
-            new QuickLink("TSMC Investor Relations", "https://investor.tsmc.com/english"),
+            new QuickLink("TSMC Investor Relations", "https://www.tsmc.com/english/investor-relations/monthly-revenue"),
+            new QuickLink("Foxconn Investor Relations", "https://www.foxconn.com/en-us/investor/monthly-revenue"),
+            new QuickLink("BYD News", "https://www.byd.com/en/news"),
+            new QuickLink("SCMP — Business", "https://www.scmp.com/business"),
+            new QuickLink("Reuters — Asia Markets", "https://www.reuters.com/markets/asia/"),
+            new QuickLink("Caixin Global", "https://www.caixinglobal.com/"),
+            new QuickLink("X — @DeItaone", "https://x.com/deitaone"),
             new QuickLink("X — @FirstSquawk", "https://x.com/firstsquawk"),
-            new QuickLink("X — @DeItaone", "https://x.com/deitaone")
+            new QuickLink("X — @zerohedge", "https://x.com/zerohedge"),
+            new QuickLink("X — @BloombergAsia", "https://x.com/bloombergasia")
         );
     }
 }
