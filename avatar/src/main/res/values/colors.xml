@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="bg">#FFF7F8FC</color>
+    <color name="panel">#FFFFFFFF</color>
+    <color name="ink">#FF121826</color>
+    <color name="ink_dim">#FF52607A</color>
+    <color name="accent">#FF2E7CF6</color>
+    <color name="accent_dark">#FF1B5EC4</color>
+    <color name="divider">#FFE2E6EE</color>
+    <color name="sky_top">#FFBDE0FE</color>
+    <color name="sky_bottom">#FFEEF4FD</color>
+    <color name="skin">#FFF2C9A6</color>
+    <color name="skin_shade">#FFD9A77D</color>
+    <color name="hair">#FF2A2630</color>
+    <color name="shirt">#FF4A6CF7</color>
+    <color name="shirt_dark">#FF2E4CBE</color>
+    <color name="pants">#FF333C57</color>
+    <color name="mouth">#FF8B2F3A</color>
+    <color name="eye">#FF1A1F2E</color>
+    <color name="btn_bg">#FFEFF4FF</color>
+    <color name="btn_bg_pressed">#FFD6E3FD</color>
+</resources>

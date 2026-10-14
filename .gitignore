@@ -1,7 +1,13 @@
 # Build outputs
 build/
+build-avatar/
 *.class
 *.dex
+
+# Avatar APK is built on CI from source; Trader APK is committed as the
+# source of truth for its release (its toolchain mirrors this one).
+dist/AvatarTalk*.apk
+dist/AvatarTalk*.idsig
 
 # Tooling junk
 *.swp
@@ -10,6 +16,7 @@ build/
 
 # Don't commit the keystore (regenerated on first build)
 app/keystore/debug.keystore
+avatar/keystore/debug.keystore
 
 # javac error report dumps
 /javac.*.args

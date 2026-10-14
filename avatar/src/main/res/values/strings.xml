@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AvatarTalk</string>
+    <string name="hint_say">Type what the avatar should say…</string>
+    <string name="btn_speak">Speak</string>
+    <string name="btn_stop">Stop</string>
+    <string name="btn_idle_on">Idle</string>
+    <string name="btn_mute">Mute mouth</string>
+    <string name="label_gestures">Gestures</string>
+    <string name="label_fingers">Finger wiggle</string>
+    <string name="g_wave">Wave</string>
+    <string name="g_point">Point</string>
+    <string name="g_thumbs">Thumbs up</string>
+    <string name="g_clap">Clap</string>
+    <string name="g_hands_up">Hands up</string>
+    <string name="g_cross">Arms crossed</string>
+    <string name="g_akimbo">Hands on hips</string>
+    <string name="g_relax">Relax</string>
+    <string name="g_1">1</string>
+    <string name="g_2">2</string>
+    <string name="g_3">3</string>
+    <string name="g_4">4</string>
+    <string name="g_5">5</string>
+    <string name="tts_missing">Device TTS not available. Install Google TTS from Play Store.</string>
+    <string name="tts_lang_missing">Selected language not supported by TTS.</string>
+</resources>
