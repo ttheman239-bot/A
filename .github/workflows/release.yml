@@ -9,24 +9,25 @@ on:
   workflow_dispatch:
     inputs:
       tag:
-        description: 'Release tag (e.g. v1.1.1)'
+        description: 'Release tag (e.g. v2.0.0)'
         required: true
-        default: 'v1.1.1'
+        default: 'v2.0.0'
 
 permissions:
   contents: write
 
 jobs:
   publish:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Verify pre-built APK exists
-        run: |
-          test -f dist/AsiaUSTrader-debug.apk
-          ls -lh dist/AsiaUSTrader-debug.apk
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
 
       - name: Resolve release tag
         id: meta
@@ -40,38 +41,87 @@ jobs:
           else
             TAG="manual-$(date -u +%Y%m%d-%H%M%S)"
           fi
-          OUT="dist/AsiaUSTrader-${TAG}.apk"
-          cp dist/AsiaUSTrader-debug.apk "${OUT}"
           echo "tag=${TAG}" >> "$GITHUB_OUTPUT"
-          echo "apk_path=${OUT}" >> "$GITHUB_OUTPUT"
 
-      - name: Upload APK as workflow artifact
+      - name: Enable universe + install Android build tooling
+        run: |
+          sudo add-apt-repository -y universe || true
+          sudo add-apt-repository -y multiverse || true
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            android-sdk-platform-23 \
+            libandroid-23-java \
+            aapt \
+            apksigner \
+            zipalign \
+            dalvik-exchange \
+            ecj
+          which aapt2 zipalign apksigner ecj
+          test -f /usr/lib/android-sdk/build-tools/debian/dx
+          test -f /usr/lib/android-sdk/platforms/android-23/android.jar
+
+      - name: Build AvatarTalk APK
+        run: |
+          chmod +x build-avatar.sh
+          ./build-avatar.sh
+          ls -lh dist/AvatarTalk-debug.apk
+
+      - name: Verify Trader APK (committed from local build)
+        run: |
+          test -f dist/AsiaUSTrader-debug.apk
+          ls -lh dist/AsiaUSTrader-debug.apk
+
+      - name: Verify signatures
+        run: |
+          apksigner verify --verbose dist/AsiaUSTrader-debug.apk
+          apksigner verify --verbose dist/AvatarTalk-debug.apk
+
+      - name: Stage APKs with tag suffix
+        id: assets
+        run: |
+          TAG="${{ steps.meta.outputs.tag }}"
+          cp dist/AsiaUSTrader-debug.apk "dist/AsiaUSTrader-${TAG}.apk"
+          cp dist/AvatarTalk-debug.apk    "dist/AvatarTalk-${TAG}.apk"
+          echo "trader=dist/AsiaUSTrader-${TAG}.apk" >> "$GITHUB_OUTPUT"
+          echo "avatar=dist/AvatarTalk-${TAG}.apk" >> "$GITHUB_OUTPUT"
+          ls -lh dist/
+
+      - name: Upload workflow artifact
         uses: actions/upload-artifact@v4
         with:
-          name: AsiaUSTrader-${{ steps.meta.outputs.tag }}
-          path: ${{ steps.meta.outputs.apk_path }}
+          name: apks-${{ steps.meta.outputs.tag }}
+          path: |
+            dist/AsiaUSTrader-${{ steps.meta.outputs.tag }}.apk
+            dist/AvatarTalk-${{ steps.meta.outputs.tag }}.apk
 
       - name: Publish GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          name: Asia → US Trader ${{ steps.meta.outputs.tag }}
+          name: Release ${{ steps.meta.outputs.tag }}
           tag_name: ${{ steps.meta.outputs.tag }}
           target_commitish: ${{ github.sha }}
-          files: ${{ steps.meta.outputs.apk_path }}
+          files: |
+            ${{ steps.assets.outputs.trader }}
+            ${{ steps.assets.outputs.avatar }}
           generate_release_notes: true
           body: |
-            **Asia → US Trader** debug build (pre-built APK from `dist/AsiaUSTrader-debug.apk`).
+            Two independent Android apps in this release.
 
-            - `package`: `com.asiaproxy.trader`
-            - `versionName`: 1.1
-            - `minSdkVersion`: 26 (Android 8.0+)
-            - `targetSdkVersion`: 23
-            - signed with v2 + v3 schemes (debug keystore — sideload only)
+            **1. Asia → US Trader** — `AsiaUSTrader-${{ steps.meta.outputs.tag }}.apk`
+            - package `com.asiaproxy.trader` · min 21 / target 34 · signed v1+v2+v3
+
+            **2. AvatarTalk** — `AvatarTalk-${{ steps.meta.outputs.tag }}.apk`
+            - package `com.avatartalk.app` · min 21 / target 34 · signed v1+v2+v3
+            - 2D rigged humanoid, Canvas-drawn, 44+ articulated joints (shoulders, elbows, wrists, 5 fingers × 3 segments per hand).
+            - Mouth lip-syncs with Android TextToSpeech (`UtteranceProgressListener`) + a 5-12 Hz amplitude driver.
+            - Gestures: Wave, Point, Thumbs up, Clap, Hands up, Arms crossed, Hands on hips, Count 1-5, Relax. Manual mouth-open seekbar.
+            - 100% on-device, no network, no downloaded models, ~33 KB APK.
 
             Install on a device:
 
             ```
             adb install -r AsiaUSTrader-${{ steps.meta.outputs.tag }}.apk
+            adb install -r AvatarTalk-${{ steps.meta.outputs.tag }}.apk
             ```
 
-            Built locally with `build.sh` (no Gradle / AGP — see README for the toolchain). To rebuild from source on a workstation, run `./build.sh` after installing the apt tools listed in the README.
+            Both built end-to-end from `aapt2 → ecj → dx → zipalign → apksigner` — no Gradle, no AGP.
