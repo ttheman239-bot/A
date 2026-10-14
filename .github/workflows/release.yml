@@ -16,6 +16,13 @@ on:
 permissions:
   contents: write
 
+env:
+  # The Debian android-sdk-platform-23 package installs under /usr/lib/android-sdk;
+  # the GH runner pre-sets ANDROID_HOME to /usr/local/lib/android/sdk which is a
+  # different, newer SDK that doesn't include API 23. Pin to the apt layout.
+  ANDROID_HOME: /usr/lib/android-sdk
+  ANDROID_SDK_ROOT: /usr/lib/android-sdk
+
 jobs:
   publish:
     runs-on: ubuntu-24.04
@@ -59,6 +66,7 @@ jobs:
           which aapt2 zipalign apksigner ecj
           test -f /usr/lib/android-sdk/build-tools/debian/dx
           test -f /usr/lib/android-sdk/platforms/android-23/android.jar
+          echo "ANDROID_HOME=$ANDROID_HOME"
 
       - name: Build AvatarTalk APK
         run: |
